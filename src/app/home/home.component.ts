@@ -67,4 +67,15 @@ export class HomeComponent implements OnInit {
       }, err => console.log(err));
   }
 
+  deleteTodo(id: string){
+    this.apiService.deleteTodo(id).subscribe(res => {
+      this.todoStore.update( state => {
+        return {
+          ...state,
+          todos : state.todos.filter(t => t._id !== id)
+        }
+      })
+    }, err => console.log(err))
+  }
+
 }

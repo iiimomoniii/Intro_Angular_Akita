@@ -28,7 +28,7 @@ export class ApiService {
         );
     }
 
-    deleteTo(id : string) : Observable<Todo> {
+    deleteTodo(id : string) : Observable<Todo> {
         return this.http.delete<Todo>(`${this.baseUrl}/${id}`);
     }
 
