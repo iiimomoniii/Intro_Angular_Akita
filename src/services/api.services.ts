@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { Todo } from "src/models/todo.model";
 import { environment } from "src/environments/environment";
-
+import { map } from "rxjs/operators"
 @Injectable({
     providedIn : 'root'
 })
@@ -23,7 +23,9 @@ export class ApiService {
     }
 
     getTodos():Observable<Todo[]>{
-        return this.http.get<Todo[]>(this.baseUrl);
+        return this.http.get<{data: Todo[]}>(this.baseUrl).pipe(
+            map((res )=> res.data)
+        );
     }
 
     deleteTo(id : string) : Observable<Todo> {
