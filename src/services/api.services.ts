@@ -18,7 +18,7 @@ export class ApiService {
 
     }
 
-    addTask(title : string, description: string): Observable<Todo>{
+    addTodo(title : string, description: string): Observable<Todo>{
         return this.http.post<Todo>(this.baseUrl, { title, description});
     }
 
