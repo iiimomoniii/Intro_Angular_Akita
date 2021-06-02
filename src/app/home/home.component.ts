@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TodoStore } from 'src/states/todo.store';
 import { TodoQuery } from 'src/states/todo.query';
-import { Todo } from 'src/models/todo.model';
+import { Todo, TodoStatus } from 'src/models/todo.model';
 import { ApiService } from 'src/services/api.services';
 import { take,switchMap, filter } from 'rxjs/operators';
 @Component({
@@ -47,6 +47,24 @@ export class HomeComponent implements OnInit {
 
   addTodo(){
     this.router.navigateByUrl('/add-todo');
+  }
+
+  markAsComplete(id: string){
+    this.apiService.updateTodo(id, { status: TodoStatus.DONE }).subscribe(
+      res => {
+        this.todoStore.update( state => {
+          const todos = [...state.todos];
+          const index = todos.findIndex( i => i._id === id);
+          todos[index] = {
+            ...todos[index],
+            status: TodoStatus.DONE
+          };
+          return {
+            ...state,
+            todos
+          };
+        });
+      }, err => console.log(err));
   }
 
 }
